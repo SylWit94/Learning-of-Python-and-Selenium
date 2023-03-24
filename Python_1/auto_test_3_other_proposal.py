@@ -7,7 +7,7 @@ class LoginPageTests(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         from selenium.webdriver.chrome.service import Service
-        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\chromedriver.exe'))
+        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\New_driver\chromedriver.exe'))
 
     @classmethod
     def tearDownClass(self):

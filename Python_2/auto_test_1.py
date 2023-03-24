@@ -13,7 +13,7 @@ class LostHatTests(unittest.TestCase):
         self.login_url = self.base_url + 'login'
         self.sample_product_url = self.base_url + 'men/1-1-hummingbird-printed-t-shirt.html'
         self.art_url = self.base_url + '9-art'
-        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\chromedriver.exe'))
+        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\New_driver\chromedriver.exe'))
 
     def tearDown(self):
         self.driver.quit()

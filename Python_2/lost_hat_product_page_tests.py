@@ -9,7 +9,7 @@ class LostHatProductPageTests(unittest.TestCase):
         self.base_url = 'https://autodemo.testoneo.com/en/'
         self.login_url = self.base_url + 'login'
         self.sample_product_url = self.base_url + 'men/1-1-hummingbird-printed-t-shirt.html'
-        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\chromedriver.exe'))
+        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\New_driver\chromedriver.exe'))
 
     def tearDown(self):
         self.driver.quit()

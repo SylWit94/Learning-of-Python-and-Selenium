@@ -11,7 +11,7 @@ class LostHatSmokeTests(unittest.TestCase):
         self.art_product_url = self.base_url + '9-art'
         self.accessories_product_url = self.base_url + '6-accessories'
         self.login_url = self.base_url + 'login'
-        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\chromedriver.exe'))
+        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\New_driver\chromedriver.exe'))
 
     @classmethod
     def tearDownClass(self):

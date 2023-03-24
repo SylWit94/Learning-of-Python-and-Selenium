@@ -10,7 +10,7 @@ from helpers import search_expression_helper as seh
 class LostHatTests(unittest.TestCase):
     def setUp(self):
         self.base_url = 'https://autodemo.testoneo.com/en/'
-        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\chromedriver.exe'))
+        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\New_driver\chromedriver.exe'))
 
     def tearDown(self):
         self.driver.quit()

@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 class LostHatFrontPageTests(unittest.TestCase):
     def setUp(self):
         self.base_url = 'https://autodemo.testoneo.com/en/'
-        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\chromedriver.exe'))
+        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\New_driver\chromedriver.exe'))
 
     def tearDown(self):
         self.driver.quit()

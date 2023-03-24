@@ -3,6 +3,7 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 
 from helpers import functional_helper as fh
 
@@ -12,7 +13,7 @@ class LostHatLoginPageTests(unittest.TestCase):
         self.base_url = 'https://autodemo.testoneo.com/en/'
         self.login_url = self.base_url + 'login'
         self.sample_product_url = self.base_url + 'men/1-1-hummingbird-printed-t-shirt.html'
-        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\chromedriver.exe'))
+        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\New_driver\chromedriver.exe'))
 
     def tearDown(self):
         self.driver.quit()
@@ -59,3 +60,37 @@ class LostHatLoginPageTests(unittest.TestCase):
         element_text = element.text
         self.assertEqual(expected_text, element_text,
                          f'Expected title differ from actual title for url: {driver.current_url}')
+
+    def test_sanity_search_on_main_page(self):
+        search_phrase = 'Hummingbird'
+        expected_element_name = 'Hummingbird Printed T-Shirt'
+        search_input_xpath = '//*[@name="s"]'
+        result_element_xpath = '//*[@class="product-miniature js-product-miniature"]'
+        self.driver.get(self.base_url)
+        search_input_element = self.driver.find_element(By.XPATH, search_input_xpath)
+        search_input_element.send_keys(search_phrase)
+        search_input_element.send_keys(Keys.ENTER)
+        result_elements = self.driver.find_elements(By.XPATH, result_element_xpath)
+        found_elements_number = 0
+        for element in result_elements:
+            if expected_element_name in element.text:
+                found_elements_number = found_elements_number + 1
+        self.assertEqual(1, found_elements_number,
+                         f"We expect 1 and actual number of found items is {found_elements_number}")
+
+    def test_sanity_search_for_on_main_page(self):
+        search_phrase = 'mug'
+        expected_element_name = 'Customizable Mug'
+        search_input_xpath = '//*[@id="search_widget"]//*[@name="s"]'
+        result_element_xpath = '//*[@class="product-miniature js-product-miniature"]'
+        self.driver.get(self.base_url)
+        search_input_element = self.driver.find_element(By.XPATH, search_input_xpath)
+        search_input_element.send_keys(search_phrase)
+        search_input_element.send_keys(Keys.ENTER)
+        result_elements = self.driver.find_elements(By.XPATH, result_element_xpath)
+        found_elements_number = 0
+        for element in result_elements:
+            if expected_element_name in element.text:
+                found_elements_number = found_elements_number + 1
+        self.assertEqual(1, found_elements_number,
+                         f'We expect 1 and actual number of found items is {found_elements_number}')

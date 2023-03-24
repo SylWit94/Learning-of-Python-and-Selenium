@@ -30,13 +30,9 @@ class LostHatShoppingCartTests(unittest.TestCase):
         element_button_add_to_cart.click()
 
         confirmation_modal_element_xpath = '//*[@id="myModalLabel"]'
-        # time.sleep(3)
-        confirmation_modal_elements = oh.wait_for_elements(driver, confirmation_modal_element_xpath, 5)
-        confirmation_modal_element = driver.find_element(By.XPATH, confirmation_modal_element_xpath)
-        confirmation_modal_element_text = confirmation_modal_element.text
+        confirmation_modal_element = oh.visibility_of_element_wait(driver, confirmation_modal_element_xpath)
+        # confirmation_modal_element = WebDriverWait(driver, 10).until(
+        #     ec.visibility_of_element_located((By.XPATH, confirmation_modal_element_xpath)),
+        #     f'Element for xpath: {confirmation_modal_element_xpath} and url: {driver.current_url} not found')
 
-        self.assertEqual(expected_confirmation_modal_text, confirmation_modal_element_text,
-                         f'The expected confirmation text differ from actual for {driver.current_url}')
-
-        # self.assertIn(expected_confirmation_modal_text, element_confirmation_modal_label_text,
-        #               f'The expected confirmation text differ from actual for {driver.current_url}')
+        self.assertEqual(expected_confirmation_modal_text, confirmation_modal_element.text)
