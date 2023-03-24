@@ -33,11 +33,11 @@ class LostHatFrontPageTests(unittest.TestCase):
 
         with self.subTest('Element height'):
             self.assertLess(expected_min_height, actual_slider_height,
-                        f'Expected height found by xpath {slider_xpath} on page {driver.current_url} is smaller than expected {expected_min_height}px')
+                            f'Expected height found by xpath {slider_xpath} on page {driver.current_url} is smaller than expected {expected_min_height}px')
 
         with self.subTest('Element width'):
             self.assertLess(expected_min_width, actual_slider_width,
-                        f'Expected width found by xpath {slider_xpath} on page {driver.current_url} is smaller than expected {expected_min_width}px')
+                            f'Expected width found by xpath {slider_xpath} on page {driver.current_url} is smaller than expected {expected_min_width}px')
 
     def test_slider_contain_exact_number_of_slides(self):
         expected_number_of_slides = 3
@@ -64,7 +64,7 @@ class LostHatFrontPageTests(unittest.TestCase):
             title_element_text_lower = title_element_text.lower()
             with self.subTest(title_element_text_lower):
                 self.assertIn(expected_text_included_in_slide, title_element_text_lower,
-                      f"Slides does not contain expected text for page {self.base_url}")
+                              f"Slides does not contain expected text for page {self.base_url}")
 
     def test_main_website_contains_exact_number_of_products(self):
         expected_product_number = 8
@@ -99,3 +99,14 @@ class LostHatFrontPageTests(unittest.TestCase):
     #         with self.subTest(f'Failed item is {item}'):
     #             self.assertIn(expected_text_included_in_string, item_text_lower,
     #                   f'Slides does not contain expected text for page {self.base_url}')
+
+    def test_sanity_all_products_have_price_in_pln(self):
+        expected_product_currency = 'PLN'
+        product_prices_xpath = '//*[@id="content"]//*[@class="price"]'
+        self.driver.get(self.base_url)
+        result_elements = self.driver.find_elements(By.XPATH, product_prices_xpath)
+        for result_element in result_elements:
+            result_element_text = result_element.get_attribute("textContent")
+            with self.subTest(result_element_text):
+                self.assertIn(expected_product_currency, result_element_text,
+                              f'Expected text not found in product description for page {self.base_url}')

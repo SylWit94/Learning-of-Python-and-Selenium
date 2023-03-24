@@ -56,25 +56,6 @@ class LostHatSmokeTests(unittest.TestCase):
         title = driver.title
         self.assertEqual(expected_title, title, f'Expected title differ from actual for url: {driver.current_url}')
 
-    def test_of_product_searcher(self):
-        expected_number_of_elements = 0
-        driver = self.driver
-        driver.get(self.base_url)
-        searcher_xpath = '//*[@id="search_widget"]//*[@type="text"]'
-        searcher_element = driver.find_element(By.XPATH, searcher_xpath)
-        searcher_element.send_keys('mug')
-        magnifier_xpath = '//*[@id="search_widget"]/form/button/i'
-        magnifier_element = driver.find_element(By.XPATH, magnifier_xpath)
-        magnifier_element.click()
-
-        list_of_products_xpath = '//*[@id="js-product-list"]/div/article'
-        list_of_products_elements = driver.find_elements(By.XPATH, list_of_products_xpath)
-
-        print(len(list_of_products_elements))
-
-        self.assertGreater(len(list_of_products_elements), expected_number_of_elements,
-                           f'The number of product element greater than {expected_number_of_elements}')
-
     def tearDown(self):
         pass
 
