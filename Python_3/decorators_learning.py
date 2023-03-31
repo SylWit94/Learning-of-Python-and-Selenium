@@ -204,3 +204,67 @@ def print_sum(value_1, value_2):
 
 wrapper_print_sum = simple_wrapper(print_sum)
 wrapper_print_sum(value_1=2, value_2=5)
+
+
+# Decorators that return a result
+
+import datetime
+
+
+def simple_current_time_wrapper(function):
+    def wrapper(name):
+        print(datetime.datetime.now())
+        return function(name)
+
+    return wrapper
+
+
+@simple_current_time_wrapper
+def print_greetings(name):
+    return f'Hello {name}!'
+
+
+print(print_greetings('Jack'))
+
+# more code...
+
+print(print_greetings('Tom'))
+
+
+# Decorators that return a result - exercise
+
+def simple_wrapper(function):
+    def wrapper(value_1, value_2):
+        print(f'value_1: {value_1}, value_2: {value_2}')
+        return function(value_1, value_2)
+
+    return wrapper
+
+
+@simple_wrapper
+def get_sum(value_1, value_2):
+    return value_1 + value_2
+
+
+result = get_sum(2, 5)
+print(f'Sum: {result}')
+
+# Construction *args (any number of parameters)
+
+import datetime
+
+
+def simple_current_time_wrapper(function):
+    def wrapper(*args):
+        print(datetime.datetime.now())
+        function(*args)
+
+    return wrapper
+
+
+@simple_current_time_wrapper
+def print_sum(value_1, value_2):
+    print(f'Sum of {value_1} and {value_2} is {value_1 + value_2}')
+
+
+print_sum(2, 3)
