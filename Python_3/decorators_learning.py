@@ -117,3 +117,90 @@ def print_greetings():
 
 
 print_greetings()
+
+
+# Decorator with parameter
+
+import datetime
+
+
+def simple_current_time_wrapper(function):
+    def wrapper(name):
+        print(datetime.datetime.now())
+        function(name)
+
+    return wrapper
+
+
+@simple_current_time_wrapper
+def print_greetings(name):
+    print(f'Hello {name}!')
+
+
+print_greetings('Jack')
+
+# more code...
+
+print_greetings('Tom')
+
+
+# Decorator @ with parameter
+
+import datetime
+
+
+def simple_current_time_wrapper(function):
+    def wrapper(name):
+        print(datetime.datetime.now())
+        function(name)
+
+    return wrapper
+
+
+def print_greetings(name):
+    print(f'Hello {name}!')
+
+
+wrapper_print_greetings = simple_current_time_wrapper(print_greetings)
+wrapper_print_greetings('Bob')
+
+# more code...
+
+wrapper_print_greetings = simple_current_time_wrapper(print_greetings)
+wrapper_print_greetings('Tom')
+
+
+# Exercise with @ decorator and parameters
+
+def simple_wrapper(function):
+    def wrapper(value_1, value_2):
+        print(f'value_1: {value_1}, value_2: {value_2}')
+        function(value_1, value_2)
+
+    return wrapper
+
+
+@simple_wrapper
+def print_sum(value_1, value_2):
+    print(value_1 + value_2)
+
+
+print_sum(2, 5)
+
+
+# Exercise with decorator and parameters
+
+def simple_wrapper(function):
+    def wrapper(value_1, value_2):
+        print(f'value_1: {value_1}, value_2: {value_2}')
+        function(value_1, value_2)
+
+    return wrapper
+
+
+def print_sum(value_1, value_2):
+    print(value_1 + value_2)
+
+
+wrapper_print_sum = simple_wrapper(print_sum)
+wrapper_print_sum(value_1=2, value_2=5)
