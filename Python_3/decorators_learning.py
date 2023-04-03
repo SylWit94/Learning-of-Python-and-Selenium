@@ -268,3 +268,41 @@ def print_sum(value_1, value_2):
 
 
 print_sum(2, 3)
+
+
+# Wrapper with date
+
+import datetime
+import time
+
+
+def current_date_wrapper(function):
+    def wrapper(value_1, value_2):
+        print(f'Start: {datetime.datetime.now()}')
+        result = function(value_1, value_2)
+        print(f'End: {datetime.datetime.now()}')
+        return result
+
+    return wrapper
+
+
+@current_date_wrapper
+def get_sum(value_1, value_2):
+    time.sleep(2)
+    return value_1 + value_2
+
+
+@current_date_wrapper
+def get_multiplication(value_1, value_2):
+    time.sleep(2)
+    return value_1 * value_2
+
+
+value_1 = 2
+value_2 = 3
+
+print(f'Sum of {value_1} and {value_2} =')
+print(get_sum(value_1, value_2))
+
+print(f'Multiplication of {value_1} and {value_2} =')
+print(get_multiplication(value_1, value_2))
