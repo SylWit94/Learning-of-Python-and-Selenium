@@ -3,19 +3,23 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.events import EventFiringWebDriver
+
+from helpers.screenshot_listener import ScreenshotListener
 
 
 class LostHatFrontPageTests(unittest.TestCase):
     def setUp(self):
         self.base_url = 'https://autodemo.testoneo.com/en/'
-        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\New_driver\chromedriver.exe'))
+        driver = webdriver.Chrome(service=Service(executable_path=r'C:\TestFiles\New_driver\chromedriver.exe'))
+        self.ef_driver = EventFiringWebDriver(driver, ScreenshotListener())
 
     def tearDown(self):
-        self.driver.quit()
+        self.ef_driver.quit()
 
     def test_slider(self):
         slider_xpath = '//*[@id="carousel"]'
-        driver = self.driver
+        driver = self.ef_driver
 
         driver.get(self.base_url)
         slider_element = driver.find_element(By.XPATH, slider_xpath)
@@ -24,7 +28,7 @@ class LostHatFrontPageTests(unittest.TestCase):
         expected_min_height = 300
         expected_min_width = 600
         slider_xpath = '//*[@id="carousel"]'
-        driver = self.driver
+        driver = self.ef_driver
 
         driver.get(self.base_url)
         slider_element = driver.find_element(By.XPATH, slider_xpath)
@@ -42,7 +46,7 @@ class LostHatFrontPageTests(unittest.TestCase):
     def test_slider_contain_exact_number_of_slides(self):
         expected_number_of_slides = 3
         slides_xpath = '//*[@id="carousel"]/ul/li'
-        driver = self.driver
+        driver = self.ef_driver
 
         driver.get(self.base_url)
         slider_elements = driver.find_elements(By.XPATH, slides_xpath)
@@ -54,7 +58,7 @@ class LostHatFrontPageTests(unittest.TestCase):
     def test_slides_required_title_text(self):
         expected_text_included_in_slide = 'sample'
         slides_titles_xpath = '//*[@id="carousel"]/ul/li//*[contains(@class, "text-uppercase")]'
-        driver = self.driver
+        driver = self.ef_driver
 
         driver.get(self.base_url)
         title_elements = driver.find_elements(By.XPATH, slides_titles_xpath)
@@ -69,7 +73,7 @@ class LostHatFrontPageTests(unittest.TestCase):
     def test_main_website_contains_exact_number_of_products(self):
         expected_product_number = 8
         xpath_products = '//*[@id="content"]/section/div/article'
-        driver = self.driver
+        driver = self.ef_driver
 
         driver.get(self.base_url)
         products = driver.find_elements(By.XPATH, xpath_products)
@@ -80,7 +84,7 @@ class LostHatFrontPageTests(unittest.TestCase):
     def test_main_website_contains_exact_number_of_product_second_solution(self):
         expected_number = 8
         product_xpath = '//*[@class="product-miniature js-product-miniature"]'
-        driver = self.driver
+        driver = self.ef_driver
 
         driver.get(self.base_url)
         product_elements = driver.find_elements(By.XPATH, product_xpath)
@@ -103,8 +107,8 @@ class LostHatFrontPageTests(unittest.TestCase):
     def test_sanity_all_products_have_price_in_pln(self):
         expected_product_currency = 'PLN'
         product_prices_xpath = '//*[@id="content"]//*[@class="price"]'
-        self.driver.get(self.base_url)
-        result_elements = self.driver.find_elements(By.XPATH, product_prices_xpath)
+        self.ef_driver.get(self.base_url)
+        result_elements = self.ef_driver.find_elements(By.XPATH, product_prices_xpath)
         for result_element in result_elements:
             result_element_text = result_element.get_attribute("textContent")
             with self.subTest(result_element_text):

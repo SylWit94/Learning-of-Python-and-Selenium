@@ -5,17 +5,20 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.events import EventFiringWebDriver
 
 from helpers import operational_helper_2 as oh2
+from helpers.screenshot_listener import ScreenshotListener
 
 
 class MainTests(unittest.TestCase):
     @classmethod
     def setUpClass(self):
-        self.driver = webdriver.Chrome(service=Service(r"C:\TestFiles\New_driver\chromedriver.exe"))
+        driver = webdriver.Chrome(service=Service(r'C:\TestFiles\New_driver\chromedriver.exe'))
+        self.ef_driver = EventFiringWebDriver(driver, ScreenshotListener())
 
     def test_demo_login(self):
-        driver = self.driver
+        driver = self.ef_driver
         url = 'https://demobank.jaktestowac.pl/logowanie_etap_1.html'
         driver.get(url)
         title = driver.title
@@ -24,7 +27,7 @@ class MainTests(unittest.TestCase):
                          f'Expected title differ from actual for page url: {url}')
 
     def test_demo_accounts(self):
-        driver = self.driver
+        driver = self.ef_driver
         url = 'https://demobank.jaktestowac.pl/konta.html'
         driver.get(url)
         title = driver.title
@@ -33,7 +36,7 @@ class MainTests(unittest.TestCase):
                          f'Expected title differ from actual for page url: {url}')
 
     def test_demo_pulpit(self):
-        driver = self.driver
+        driver = self.ef_driver
         url = 'https://demobank.jaktestowac.pl/pulpit.html'
         driver.get(url)
         title = driver.title
@@ -42,7 +45,7 @@ class MainTests(unittest.TestCase):
                          f'Expected title differ from actual for page url: {url}')
 
     def test_demo_transfer(self):
-        driver = self.driver
+        driver = self.ef_driver
         url = 'https://demobank.jaktestowac.pl/przelew_nowy_zew.html'
         driver.get(url)
         title = driver.title
@@ -52,20 +55,21 @@ class MainTests(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        self.driver.quit()
+        self.ef_driver.quit()
 
 
 class LoginPageTests(unittest.TestCase):
     @classmethod
     def setUpClass(self):
-        self.driver = webdriver.Chrome(service=Service(r"C:\TestFiles\New_driver\chromedriver.exe"))
+        driver = webdriver.Chrome(service=Service(r'C:\TestFiles\New_driver\chromedriver.exe'))
+        self.ef_driver = EventFiringWebDriver(driver, ScreenshotListener())
 
     @classmethod
     def tearDownClass(self):
-        self.driver.quit()
+        self.ef_driver.quit()
 
     def test_exact_text_for_login_form_header(self):
-        driver = self.driver
+        driver = self.ef_driver
         url = 'https://demobank.jaktestowac.pl/logowanie_etap_1.html'
         driver.get(url)
         login_form_header_element = driver.find_element(By.XPATH, '//*[@id="login_form"]/h1')
@@ -74,7 +78,7 @@ class LoginPageTests(unittest.TestCase):
                          f'Expected title differ from actual title for page url: {url}')
 
     def test_button_dalej_is_disabled_when_login_input_is_empty(self):
-        driver = self.driver
+        driver = self.ef_driver
         url = 'https://demobank.jaktestowac.pl/logowanie_etap_1.html'
         driver.get(url)
         login_form_input_element = driver.find_element(By.XPATH, '//*[@id="login_id"]')
@@ -85,7 +89,7 @@ class LoginPageTests(unittest.TestCase):
                          f'Expected state of "dalej" button: True , differ from actual: {login_next_button_disabled} , for page url: {url}')
 
     def test_display_error_message_when_user_submit_less_than_8_signs(self):
-        driver = self.driver
+        driver = self.ef_driver
         url = 'https://demobank.jaktestowac.pl/logowanie_etap_1.html'
         driver.get(url)
         login_form_input_element = driver.find_element(By.XPATH, '//*[@id="login_id"]')
@@ -100,7 +104,7 @@ class LoginPageTests(unittest.TestCase):
                          f'Expected warning message differ from actual one for url: {url}')
 
     def test_button_dalej_respond_when_enters_8_signs_id(self):
-        driver = self.driver
+        driver = self.ef_driver
         url = 'https://demobank.jaktestowac.pl/logowanie_etap_1.html'
         driver.get(url)
         login_form_input_element = driver.find_element(By.XPATH, '//*[@id="login_id"]')
@@ -119,7 +123,7 @@ class LoginPageTests(unittest.TestCase):
 
     # Teraz Ty 1
     def test_correct_popup_text(self):
-        driver = self.driver
+        driver = self.ef_driver
         url = 'https://demobank.jaktestowac.pl/logowanie_etap_1.html'
         driver.get(url)
         login_reminder_element = driver.find_element(By.XPATH, '//*[@id="ident_rem"]')
@@ -136,7 +140,7 @@ class LoginPageTests(unittest.TestCase):
 
     # Teraz Ty 2
     def test_correct_login_from_login_etap2(self):
-        driver = self.driver
+        driver = self.ef_driver
         url = 'https://demobank.jaktestowac.pl/logowanie_etap_2.html'
         driver.get(url)
         # finding login input box and sending value
@@ -161,16 +165,17 @@ class LoginPageTests(unittest.TestCase):
 class ContactUsPageTests(unittest.TestCase):
     @classmethod
     def setUpClass(self):
-        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\New_driver\chromedriver.exe'))
+        driver = webdriver.Chrome(service=Service(r'C:\TestFiles\New_driver\chromedriver.exe'))
+        self.ef_driver = EventFiringWebDriver(driver, ScreenshotListener())
 
     @classmethod
     def tearDown(self):
-        self.driver.quit()
+        self.ef_driver.quit()
 
     def test_contact_us_form_header(self):
         expected_text = 'CONTACT US'
         contact_us_page_url = 'https://autodemo.testoneo.com/en/contact-us'
-        driver = self.driver
+        driver = self.ef_driver
         driver.get(contact_us_page_url)
         header_xpath = '//*[@id="content"]//*[@class="col-md-9 col-md-offset-3"]'
         header_element = driver.find_element(By.XPATH, header_xpath)
@@ -183,7 +188,7 @@ class ContactUsPageTests(unittest.TestCase):
     def test_contact_us_form_with_empty_email_element(self):
         expected_warning_text = 'Invalid email address.'
         contact_us_page_url = 'https://autodemo.testoneo.com/en/contact-us'
-        driver = self.driver
+        driver = self.ef_driver
         driver.get(contact_us_page_url)
         send_button_xpath = '//*[@id="content"]//*[@type="submit"]'
         send_button_element = driver.find_element(By.XPATH, send_button_xpath)
@@ -191,7 +196,7 @@ class ContactUsPageTests(unittest.TestCase):
 
         warning_element_xpath = '//*[@id="content"]//*[@class="col-xs-12 alert alert-danger"]'
         locator = (By.XPATH, warning_element_xpath)
-        warning_element = WebDriverWait(driver, 10).until(
+        warning_element = WebDriverWait(driver.wrapped_driver, 10).until(
             ec.visibility_of_element_located(locator), f'Element not found')
 
         self.assertEqual(expected_warning_text, warning_element.text)

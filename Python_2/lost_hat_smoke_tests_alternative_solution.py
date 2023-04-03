@@ -2,6 +2,9 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.events import EventFiringWebDriver
+
+from helpers.screenshot_listener import ScreenshotListener
 
 
 class LostHatSmokeTests(unittest.TestCase):
@@ -12,11 +15,12 @@ class LostHatSmokeTests(unittest.TestCase):
         self.art_product_url = self.base_url + '9-art'
         self.accessories_product_url = self.base_url + '6-accessories'
         self.login_url = self.base_url + 'login'
-        self.driver = webdriver.Chrome(service=Service(r'C:\TestFiles\New_driver\chromedriver.exe'))
+        driver = webdriver.Chrome(service=Service(executable_path=r'C:\TestFiles\New_driver\chromedriver.exe'))
+        self.ef_driver = EventFiringWebDriver(driver, ScreenshotListener())
 
     @classmethod
     def tearDownClass(self):
-        self.driver.quit()
+        self.ef_driver.quit()
 
     def test_base_page_title(self):
         expected_title = 'Lost Hat'
@@ -39,8 +43,8 @@ class LostHatSmokeTests(unittest.TestCase):
         self.assert_title(self.login_url, expected_title)
 
     def get_page_title(self, url):
-        self.driver.get(url)
-        return self.driver.title
+        self.ef_driver.get(url)
+        return self.ef_driver.title
 
     def assert_title(self, url, expected_title):
         actual_title = self.get_page_title(url)
@@ -49,7 +53,7 @@ class LostHatSmokeTests(unittest.TestCase):
 
     def test_of_product_searcher(self):
         expected_number_of_elements = 0
-        driver = self.driver
+        driver = self.ef_driver
         driver.get(self.base_url)
         searcher_xpath = '//*[@id="search_widget"]//*[@type="text"]'
         searcher_element = driver.find_element(By.XPATH, searcher_xpath)

@@ -8,5 +8,6 @@ def visibility_of_element_wait(driver, xpath, timeout=10):
     timeout_message = f'Element for xpath: {xpath} and url: {driver.current_url} not found in {timeout} seconds'
     locator = (By.XPATH, xpath)
     element_located = ec.visibility_of_element_located(locator)
-    wait = WebDriverWait(driver, timeout)
+    wait = WebDriverWait(driver, timeout) # using EventFiringWebDriver
+    wait = WebDriverWait(driver.wrapped_driver, timeout) # using pure driver
     return wait.until(element_located, timeout_message)
